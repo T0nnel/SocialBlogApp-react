@@ -1,0 +1,15 @@
+.for-the-posts{
+    background-color: rgb(219, 217, 217);
+    border-radius: 10px;
+    box-shadow:0 0 3px;
+}
+
+.post-extras{
+    display: flex;
+}
+
+.likebtn{
+    
+    padding: 10px;
+
+}

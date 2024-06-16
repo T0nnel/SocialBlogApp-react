@@ -6,22 +6,43 @@ import { UserContext } from './UserContext';
 export default function Header(){
     const {setUserInfo, userInfo} = useContext(UserContext)
     useEffect(() => {
-        fetch('https://localhost:3000/profile', {
+        fetch('http://localhost:3000/profile', {
             credentials: 'include'
-        }).then(response => {
-            response.json().then(userInfo => {
-                setUserInfo(userInfo)
-            })
         })
-    }, )
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Failed to fetch user profile');
+            }
+        })
+        .then(userInfo => {
+            setUserInfo(userInfo);
+        })
+        .catch(error => {
+            console.error('Error fetching profile:', error);
+            // Handle error state or retry logic as needed
+        });
+    }, []);
 
     function logout() {
         fetch('http://localhost:3000/logout', {
             credentials: 'include',
-            method: 'POST' ,
+            method: 'POST',
         })
-        setUserInfo(null)
+        .then(response => {
+            if (response.ok) {
+                setUserInfo(null); // Clear user info upon successful logout
+            } else {
+                throw new Error('Logout failed');
+            }
+        })
+        .catch(error => {
+            console.error('Error logging out:', error);
+            // Handle error state or retry logic as needed
+        });
     }
+    
 
     const username = userInfo?.username
 
