@@ -1,66 +1,60 @@
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import '../App.css';
 import { Link } from 'react-router-dom';
 import { UserContext } from './UserContext';
 
-export default function Header() {
-    const { setUserInfo, userInfo } = useContext(UserContext);
-
+export default function Header(){
+    const {setUserInfo, userInfo} = useContext(UserContext)
     useEffect(() => {
-        fetch('http://localhost:3000/profile', {
+        fetch('https://localhost:3000/profile', {
             credentials: 'include'
+        }).then(response => {
+            response.json().then(userInfo => {
+                setUserInfo(userInfo)
+            })
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Failed to fetch user info');
-        })
-        .then(userInfo => {
-            setUserInfo(userInfo);
-        })
-        .catch(error => {
-            console.error('Error fetching user info:', error);
-        });
-    },  ); // Empty dependency array ensures this effect runs once on mount
+    }, )
 
     function logout() {
         fetch('http://localhost:3000/logout', {
             credentials: 'include',
-            method: 'POST',
+            method: 'POST' ,
         })
-        .then(response => {
-            if (response.ok) {
-                setUserInfo(null); // Clear user info after successful logout
-            } else {
-                console.error('Failed to logout');
-            }
-        })
-        .catch(error => {
-            console.error('Error logging out:', error);
-        });
+        setUserInfo(null)
     }
 
-    const username = userInfo?.username;
+    const username = userInfo?.username
 
-    return (
+    return(
         <main>
             <header>
                 <Link to='/' className='logo'>Treasure <span className='span__logo'>Blogs 📚</span></Link>
                 <nav>
-                    {username ? (
+                    {username && (
                         <>
-                            <Link to="/create">Create Post</Link>
-                            <Link onClick={logout}>LogOut</Link>
-                        </>
-                    ) : (
-                        <>
-                            <Link to='/login'>Login</Link>
-                            <Link to='/register' className=''>Register</Link> {/* Fixed className here */}
+                         <Link to="/create">Create Post</Link>
+                         <Link onClick={logout}>LogOut</Link>
                         </>
                     )}
+                     {!username && (
+                            <>
+                             <Link to='/login' className=''>Login</Link>
+                             <Link to='/register' clLinkssName=''>Register</Link>
+                            </>
+                        )}
+                   
                 </nav>
             </header>
+          {/*   <div class="iframe-container" id="iframeContainer">
+        <iframe
+            src="https://shellymimo-chatbot.hf.space"
+            frameborder="0"
+            width="100%"
+            height="100%"
+        ></iframe>
+    </div> */}
+    
+
         </main>
-    );
+    )
 }

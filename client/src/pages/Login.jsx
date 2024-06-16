@@ -28,7 +28,7 @@ export default function Login(){
     }
   
     if (redirect) {
-      return <Navigate to={'/create'} />
+      return <Navigate to={'/'} />
     }
     return(
       <div>
@@ -42,7 +42,7 @@ export default function Login(){
                placeholder="password"
                value={password}
                onChange={ev => setPassword(ev.target.value)} />
-        <button><a href = "/create">Log In</a></button>
+        <button>Log In</button>
        </form>
        </div>  
     )

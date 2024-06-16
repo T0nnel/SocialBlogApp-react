@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(__dirname + '/uploads'));
 
-mongoose.connect("mongodb+srv://alphazoidblog:BS9yQoNHPIgPjYK8@cluster0.prxegsg.mongodb.net");
+mongoose.connect("mongodb+srv://tonnel:tonnel@cluster0.eyeqbwd.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0ssl=true");
 
 // Handle MongoDB connection error
 mongoose.connection.on('error', err => {
